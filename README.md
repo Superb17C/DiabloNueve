@@ -1,8 +1,15 @@
-TODO\While working as a casino dealer, I had the opportunity to serve as the math consultant for a colleague, Kyle Blanchard, who designed a casino card game called Diablo Nueve. We were both interested to test whether his simple gameplay loop would give rise to complex strategies. Here are the game rules:
-- x
+While working as a casino dealer, I had the opportunity to serve as the math consultant for a colleague, Kyle Blanchard, who designed a casino card game called Diablo Nueve. We were both interested to test whether his simple gameplay loop would give rise to complex strategies. Here are the rules for a single round:
+- The player wagers 1 ante. 6 or more 48-card Spanish decks are shuffled together. The player receives 3 of these cards face up.
+- The player may either stop the round, or add 1-3 additional antes to their wager in exchange for 1 additional card. The player may draw up to 3 times, after which they must stop.
+- Face cards are worth 1 point. Aces are worth 1 or 2 points, whichever benefits the player more at the end of the round. All other cards are worth points equal to their numerical value.
+- If the player's final point total is a multiple of 9, they win 1 ante for every ante that they wagered. If the player has exactly 6 cards with a point total 3 less than a multiple of 9, they keep their wager but do not win any additional antes. In all other cases, the player loses their wager.
+- There are several special combinations, such as straights and three of a kinds, that pay out bonuses to the player if the combination also totals a multiple of 9.
 
-i chose racket due to recursive nature of game states, to simp calcs i assumed inf decks, excel has 1pg strat chart similar to bj
+I chose Racket as the language I would use to model Diablo Nueve due to the recursive nature of the game's states, which suit the Lisp family well. To simply the calculations, I assumed a draw pile made of an infinite number of decks, i.e. every draw is independent of all previous draws. After running the program to determine the highest-expected-value choice at all of the player's possible decision points, I summarized the results in the attached Excel sheet in the style of blackjack strategy charts popularly sold in casino gift shops.
 
-x
-- allow 6s to push any time not just @ end
-- make rare deal payouts much larger, perhaps even prog jackpots to draw in crowds
+Setting the number of cards in the game state to 0 allows to the program to calculate the expected value of the game as a whole, which turns out to be -0.27 antes, often expressed in gaming parlance as a 27% house edge. Since this figure is higher than virtually every table game played in modern casinos, my solver's output was able to influence the designer to reconsider the game's rules before moving forward with its development. We discussed possible ways to boost the player's odds in future iterations of the game, such as:
+- allowing the player to keep their wager when finishing with 3 points less than a multiple of 9 at ANY number of cards, not just 6
+- making the special combination bonuses extremely large, perhaps in the form of progressive jackpots
+
+Side note:
+The Diablo Nueve solver makes use of another one of my original Racket programs called "Constitute Target". The original purpose of Constitute Target was to help out an accountant that I know who needed to classify a business's expenses into different categories, given only the dollar value of each expense and the total value spent in each category. I repurposed the same code while working on Diablo Nueve when I had to find all 3-card combinations that would trigger a bonus immediately upon the initial deal.
